@@ -14,7 +14,8 @@ module.exports = merge(common(), {
   },
   output: {
     path: path.resolve(process.cwd(), 'dist'),
-    filename: '[fullhash:4]/[name].js',
+    // filename: '[fullhash:4]/[name].js',
+    filename: '[name].js',
   },
   plugins: [
     new DefinePlugin({
