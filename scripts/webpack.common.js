@@ -52,7 +52,7 @@ module.exports = () => ({
     new HtmlWebpackPlugin({
       title: 'Gameboy Printer Web Plugins',
       pluginList: Object.keys(gbpWebPlugins).map((name) => (
-        `<li><a href="/${name}.js">${name}</a></li>`
+        `<li><a href="./${name}.js">${name}</a></li>`
       )),
       template: './src/assets/index.html',
       filename: 'index.html',
