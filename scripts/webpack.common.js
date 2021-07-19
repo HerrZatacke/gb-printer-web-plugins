@@ -1,10 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const gbpWebPlugins = {
   customPixels: path.join(process.cwd(), 'src', 'javascript', 'customPixels', 'index.js'),
+  exampleDummy: path.join(process.cwd(), 'src', 'javascript', 'examples', 'dummy.js'),
+  exampleSkeleton: path.join(process.cwd(), 'src', 'javascript', 'examples', 'skeleton.js'),
 };
 
 module.exports = () => ({
@@ -51,14 +52,15 @@ module.exports = () => ({
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Gameboy Printer Web Plugins',
-      pluginList: Object.keys(gbpWebPlugins).map((name) => (
-        `<li><a href="./${name}.js">${name}</a></li>`
-      )),
+      pluginList: Object.keys(gbpWebPlugins)
+        .map((name) => (
+          `<li><a href="./${name}.js">${name}</a></li>`
+        ))
+        .join(''),
       template: './src/assets/index.html',
       filename: 'index.html',
       favicon: './src/assets/images/favicon.png',
       chunks: [],
     }),
-    new NodePolyfillPlugin(),
   ],
 });
