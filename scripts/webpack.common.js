@@ -2,16 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-// const { DefinePlugin } = require('webpack');
 
 module.exports = () => ({
   resolve: {
     extensions: ['.js', '.json', '.jsx'],
   },
   entry: {
-    customPixels: [
-      path.join(process.cwd(), 'src', 'javascript', 'customPixels', 'index.js'),
-    ],
+    customPixels: path.join(process.cwd(), 'src', 'javascript', 'customPixels', 'index.js'),
   },
   module: {
     rules: [
@@ -31,21 +28,9 @@ module.exports = () => ({
         },
         include: path.join(process.cwd(), 'src'),
       },
-      {
-        test: /\.(txt|md)$/i,
-        use: 'raw-loader',
-      },
     ],
   },
   optimization: {
-    splitChunks: {
-      automaticNameDelimiter: '/',
-      cacheGroups: {
-        v: {
-          test: /[\\/]node_modules[\\/]/,
-        },
-      },
-    },
     minimizer: [
       new TerserPlugin({
         extractComments: {
@@ -67,9 +52,8 @@ module.exports = () => ({
       template: './src/assets/index.html',
       filename: 'index.html',
       favicon: './src/assets/images/favicon.png',
-      chunks: [],
+      chunks: '*',
     }),
     new NodePolyfillPlugin(),
-    // new DefinePlugin({}),
   ],
 });
