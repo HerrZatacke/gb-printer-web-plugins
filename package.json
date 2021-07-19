@@ -2,9 +2,11 @@
   "name": "gb-printer-web-plugins",
   "version": "1.0.0",
   "description": "Plugins for the GB-Printer WebApp",
-  "main": "index.js",
   "scripts": {
-    "build": "mkdir dist && echo 'Test' > dist/index.html"
+    "start": "webpack serve --config ./scripts/webpack.dev.js",
+    "build": "npm run build:clean && npm run build:webpack",
+    "build:clean": "rimraf dist/*",
+    "build:webpack": "webpack --config ./scripts/webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,39 @@
   "bugs": {
     "url": "https://github.com/HerrZatacke/gb-printer-web-plugins/issues"
   },
-  "homepage": "https://github.com/HerrZatacke/gb-printer-web-plugins#readme"
+  "homepage": "https://github.com/HerrZatacke/gb-printer-web-plugins#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-react": "^7.13.13",
+    "@octokit/rest": "^18.1.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
+    "copy-webpack-plugin": "^9.0.0",
+    "core-js": "^3.13.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "node-polyfill-webpack-plugin": "^1.1.2",
+    "raw-loader": "^4.0.1",
+    "rimraf": "^3.0.2",
+    "webpack": "^5.38.1",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
+  },
+  "browserslist": [
+    ">1%",
+    "last 4 versions",
+    "Firefox ESR",
+    "edge 18",
+    "not ie <= 11"
+  ]
 }
