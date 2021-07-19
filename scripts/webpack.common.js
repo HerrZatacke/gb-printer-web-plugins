@@ -3,13 +3,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
+const gbpWebPlugins = {
+  customPixels: path.join(process.cwd(), 'src', 'javascript', 'customPixels', 'index.js'),
+};
+
 module.exports = () => ({
   resolve: {
     extensions: ['.js', '.json', '.jsx'],
   },
-  entry: {
-    customPixels: path.join(process.cwd(), 'src', 'javascript', 'customPixels', 'index.js'),
-  },
+  entry: gbpWebPlugins,
   module: {
     rules: [
       {
@@ -49,6 +51,9 @@ module.exports = () => ({
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Gameboy Printer Web Plugins',
+      pluginList: Object.keys(gbpWebPlugins).map((name) => (
+        `<li><a href="/${name}.js">${name}</a></li>`
+      )),
       template: './src/assets/index.html',
       filename: 'index.html',
       favicon: './src/assets/images/favicon.png',
