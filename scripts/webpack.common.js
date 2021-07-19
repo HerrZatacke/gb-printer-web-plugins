@@ -57,7 +57,7 @@ module.exports = () => ({
       template: './src/assets/index.html',
       filename: 'index.html',
       favicon: './src/assets/images/favicon.png',
-      chunks: '*',
+      chunks: [],
     }),
     new NodePolyfillPlugin(),
   ],
