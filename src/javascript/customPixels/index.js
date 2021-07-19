@@ -318,7 +318,10 @@ class CustomPixelsPlugin {
     img.src = targetCanvas.toDataURL('image/png');
   }
 
-  withSelection() {}
+  withSelection() {
+    // eslint-disable-next-line no-alert
+    alert(`${this.name} does not handle multiple images at once.`);
+  }
 }
 
 window.gbpwRegisterPlugin(CustomPixelsPlugin);
