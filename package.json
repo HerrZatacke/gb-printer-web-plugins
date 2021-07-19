@@ -1,10 +1,10 @@
 {
   "name": "gb-printer-web-plugins",
   "version": "1.0.0",
-  "description": "Plugins for the ",
+  "description": "Plugins for the GB-Printer WebApp",
   "main": "index.js",
   "scripts": {
-    "build": "Plugins for the GB-Printer WebApp"
+    "build": "mkdir dist && echo 'Test' > dist/index.html"
   },
   "repository": {
     "type": "git",
