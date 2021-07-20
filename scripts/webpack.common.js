@@ -31,6 +31,15 @@ module.exports = () => ({
         },
         include: path.join(process.cwd(), 'src'),
       },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {},
+          },
+        ],
+      },
     ],
   },
   optimization: {
