@@ -1,3 +1,5 @@
+import sampleImage from '../../assets/images/sample.png';
+
 class DummyPlugin {
   constructor(env, config) {
     this.name = 'Dummy Plugin';
@@ -14,10 +16,25 @@ class DummyPlugin {
     };
 
     this.config = config;
+    this.saveAs = () => null;
+    this.progress = () => null;
+
+    // the env object env contains a reference to the redux-store.
+    // if you need it, be careful what you do with it and if possible learn the basic concepts of redux https://redux.js.org/understanding/thinking-in-redux/motivation
     console.log(env, this.config);
   }
 
-  init() {
+  init({ saveAs, progress }) {
+    // saveAs is a reference to the saveAs method from https://www.npmjs.com/package/file-saver
+    // progress should be called with values between 0 and 1 to indicate plugin progress
+    // both values should be stored as follows:
+    this.saveAs = saveAs;
+    this.progress = progress;
+
+    // this is a way to import (small) binary assets into your js
+    // the value can be handled as any URL
+    console.log(sampleImage);
+
     // custom init code
   }
 
