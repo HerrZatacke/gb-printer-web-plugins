@@ -10,9 +10,9 @@
  */
 
 class CustomPixelsPlugin {
-  constructor({ store: { dispatch } }, config) {
+  constructor({ saveAs, progress, store: { dispatch } }, config) {
     this.name = 'Custom Pixels Plugin';
-    this.description = 'Select any external image with pixel representation';
+    this.description = 'Render one of your images with pixels taken from en external image source';
     this.configParams = {
       imageUrl: {
         label: 'External URL of the image file containing custom pixels',
@@ -44,14 +44,9 @@ class CustomPixelsPlugin {
     this.config = config;
     this.samples = null;
     this.pixelTransitions = null;
-    this.saveAs = () => null;
-    this.progress = () => null;
-    this.dispatch = dispatch;
-  }
-
-  init({ saveAs, progress }) {
     this.saveAs = saveAs;
     this.progress = progress;
+    this.dispatch = dispatch;
     this.checkConfig();
   }
 

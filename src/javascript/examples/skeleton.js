@@ -4,13 +4,8 @@ class PluginSkeleton {
     this.description = 'This plugin exposes all necessary methods and properties'; // Add a small description of your plugin
     this.configParams = {}; // See dummy.js on how to define config params
     this.config = config;
-    this.saveAs = () => null;
-    this.progress = () => null;
-  }
-
-  init({ saveAs, progress }) {
-    this.saveAs = saveAs;
-    this.progress = progress;
+    this.saveAs = env.saveAs;
+    this.progress = env.progress;
   }
 
   setConfig(configUpdate) {
