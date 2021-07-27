@@ -4,7 +4,7 @@
  * This plugin is a plain JS implementation of the original GameboyPrinterPaperSimulation by Raphaël Boichot
  * https://github.com/Raphael-Boichot/GameboyPrinterPaperSimulation
  *
- * It's recommended to use a service like jsdelivr to add it to the Gameboy Printer Web App
+ * It can be added to the Gameboy Printer Web App
  * https://herrzatacke.github.io/gb-printer-web/#/settings/plugins
  *
  */
