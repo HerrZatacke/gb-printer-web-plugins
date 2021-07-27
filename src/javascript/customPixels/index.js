@@ -10,7 +10,7 @@
  */
 
 class CustomPixelsPlugin {
-  constructor(env, config) {
+  constructor({ store: { dispatch } }, config) {
     this.name = 'Custom Pixels Plugin';
     this.description = 'Select any external image with pixel representation';
     this.configParams = {
@@ -46,12 +46,34 @@ class CustomPixelsPlugin {
     this.pixelTransitions = null;
     this.saveAs = () => null;
     this.progress = () => null;
+    this.dispatch = dispatch;
   }
 
   init({ saveAs, progress }) {
     this.saveAs = saveAs;
     this.progress = progress;
     this.checkConfig();
+  }
+
+  showMessage(label) {
+    this.dispatch({
+      type: 'CONFIRM_ASK',
+      payload: {
+        message: '',
+        questions: () => [
+          {
+            label,
+            key: 'info',
+            type: 'info',
+          },
+        ],
+        confirm: () => {
+          this.dispatch({
+            type: 'CONFIRM_ANSWERED',
+          });
+        },
+      },
+    });
   }
 
   checkConfig() {
@@ -168,8 +190,7 @@ class CustomPixelsPlugin {
 
   withImage(image) {
     if (!this.canRun) {
-      // eslint-disable-next-line no-alert
-      alert(`${this.name} is missing config settings`);
+      this.showMessage(`${this.name} is missing config settings`);
       this.progress(0);
       return;
     }
@@ -184,8 +205,7 @@ class CustomPixelsPlugin {
     ]).then(([meta, { palette: sourcePalette }, sourceCanvas]) => {
 
       if (meta.isRGBN) {
-        // eslint-disable-next-line no-alert
-        alert(`${this.name} does not work with RGBN images`);
+        this.showMessage(`${this.name} does not work with RGBN images`);
         this.progress(0);
         return;
       }
@@ -319,8 +339,7 @@ class CustomPixelsPlugin {
   }
 
   withSelection() {
-    // eslint-disable-next-line no-alert
-    alert(`${this.name} does not handle multiple images at once.`);
+    this.showMessage(`${this.name} does not handle multiple images at once.`);
   }
 }
 
