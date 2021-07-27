@@ -59,7 +59,7 @@ class CustomPixelsPlugin {
     this.dispatch({
       type: 'CONFIRM_ASK',
       payload: {
-        message: '',
+        message: this.name,
         questions: () => [
           {
             label,
