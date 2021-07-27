@@ -22,7 +22,7 @@ module.exports = merge(common(), {
       errors: true,
     },
     contentBase: path.join(process.cwd(), 'src', 'assets'),
-    port: 4000,
+    port: 5000,
     watchContentBase: true,
     host: '0.0.0.0',
     before: setupServer,
