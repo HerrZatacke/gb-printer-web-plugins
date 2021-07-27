@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "ignorePatterns": [
+    "**/examples/**/*"
+  ],
   "plugins": [
     "react-hooks"
   ],
