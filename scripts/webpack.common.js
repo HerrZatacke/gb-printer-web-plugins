@@ -45,16 +45,12 @@ module.exports = () => ({
   optimization: {
     minimizer: [
       new TerserPlugin({
-        extractComments: {
-          condition: /^\**!|@preserve|@license|@cc_on/i,
-          filename: (fileData) => (
-            // The "fileData" argument contains object with "filename", "basename", "query" and "hash"
-            `${fileData.filename}.l.txt${fileData.query}`
-          ),
-          banner: (licenseFile) => (
-            `License information can be found in ${licenseFile}`
-          ),
+        terserOptions: {
+          format: {
+            comments: /^\**!|@preserve|@license|@cc_on/i,
+          },
         },
+        extractComments: false,
       }),
     ],
   },
