@@ -37,12 +37,13 @@ class SVGIze {
 
   withImage(image) {
     Promise.all([
+      image.getMeta(),
       image.getPalette(),
       image.getCanvas({
         handleExportFrame: 'crop',
       }),
     ])
-      .then(([{ palette }, canvas]) => {
+      .then(([meta, { palette }, canvas]) => {
         const context = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
@@ -93,7 +94,7 @@ class SVGIze {
 
         doc.push('</svg>');
 
-        this.saveAs(new Blob([doc.join('\n')]), 'yay.svg');
+        this.saveAs(new Blob([doc.join('\n')]), `SVGize.${meta.title ? `${meta.title}.` : ''}svg`);
       });
   }
 
