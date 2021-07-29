@@ -56,6 +56,7 @@ class SVGIze {
 
         const doc = [
           `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">`,
+          `<rect x="0" y="0" width="${width}" height="${height}" fill="#fff"/>`,
         ];
 
         const radii = [
