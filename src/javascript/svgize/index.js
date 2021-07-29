@@ -2,15 +2,41 @@ class SVGIze {
   constructor(env, config) {
     this.name = 'SVG-ize';
     this.description = 'Creates an svg from your image';
-    this.configParams = {};
+    this.configParams = {
+      r1: {
+        label: 'Radius 1 (smallest)',
+        type: 'number',
+      },
+      r2: {
+        label: 'Radius 2',
+        type: 'number',
+      },
+      r3: {
+        label: 'Radius 3',
+        type: 'number',
+      },
+      r4: {
+        label: 'Radius 4 (biggest)',
+        type: 'number',
+      },
+    };
 
     this.config = config;
     this.saveAs = env.saveAs;
     this.progress = env.progress;
+    this.checkConfig();
   }
 
   setConfig(configUpdate) {
     Object.assign(this.config, configUpdate);
+    this.checkConfig();
+  }
+
+  checkConfig() {
+    this.config.r1 = parseFloat(this.config.r1) || 0;
+    this.config.r2 = parseFloat(this.config.r2) || 0;
+    this.config.r3 = parseFloat(this.config.r3) || 0;
+    this.config.r4 = parseFloat(this.config.r4) || 0;
   }
 
   withImage(image) {
@@ -21,8 +47,6 @@ class SVGIze {
       }),
     ])
       .then(([{ palette }, canvas]) => {
-        document.body.appendChild(canvas);
-
         const context = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
@@ -38,21 +62,38 @@ class SVGIze {
         ];
 
         const radii = [
-          0.15,
-          0.25,
-          0.35,
-          0.45,
+          this.config.r1,
+          this.config.r2,
+          this.config.r3,
+          this.config.r4,
         ];
+
+        const groups = [[], [], [], []];
 
         for (let x = 0; x < width; x += 1) {
           for (let y = 0; y < height; y += 1) {
             const ci = getColorIndex(x, y, 1, 1);
 
+            const xOffset = y % 2 ? 0.5 : 0;
+
             if (radii[ci]) {
-              doc.push(`<circle cx="${x + 0.5}" cy="${y + 0.5}" r="${radii[ci]}" fill="#000"/>`);
+              groups[ci].push(`<circle cx="${x + 0.5 + xOffset}" cy="${y + 0.5}" r="${radii[ci]}" />`);
             }
           }
         }
+
+        doc.push(
+          groups
+            .map((g, index) => (
+              [
+                `<g fill="${palette[index]}">`,
+                ...g,
+                '</g>',
+              ]
+                .join('\n')
+            ))
+            .filter((g) => g.length > 2),
+        );
 
         doc.push('</svg>');
 
