@@ -15,7 +15,9 @@ class DummyPlugin {
       },
     };
 
-    this.config = config;
+    // will be updated via setConfig()
+    this.config = {};
+    this.setConfig(config);
 
     // saveAs is a reference to the saveAs method from https://www.npmjs.com/package/file-saver
     // progress should be called with values between 0 and 1 to indicate plugin progress
@@ -25,7 +27,7 @@ class DummyPlugin {
 
     // the env object env contains a reference to the redux-store.
     // if you need it, be careful what you do with it and if possible learn the basic concepts of redux https://redux.js.org/understanding/thinking-in-redux/motivation
-    console.log(env, this.config);
+    console.log(env);
 
     // this is a way to import (small) binary assets into your js
     // the value can be handled as any URL
@@ -37,6 +39,9 @@ class DummyPlugin {
   setConfig(configUpdate) {
     // custom config update code
     Object.assign(this.config, configUpdate);
+
+    // you can parse or manipulate config values after receiving the config state here
+
     console.log(this.config);
   }
 

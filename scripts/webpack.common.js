@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const gbpWebPlugins = {
   customPixels: path.join(process.cwd(), 'src', 'javascript', 'customPixels', 'index.js'),
+  svgize: path.join(process.cwd(), 'src', 'javascript', 'svgize', 'index.js'),
   exampleDummy: path.join(process.cwd(), 'src', 'javascript', 'examples', 'dummy.js'),
   exampleSkeleton: path.join(process.cwd(), 'src', 'javascript', 'examples', 'skeleton.js'),
 };

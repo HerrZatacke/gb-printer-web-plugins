@@ -41,13 +41,13 @@ class CustomPixelsPlugin {
     };
 
     this.canRun = false;
-    this.config = config;
+    this.config = {};
     this.samples = null;
     this.pixelTransitions = null;
     this.saveAs = saveAs;
     this.progress = progress;
     this.dispatch = dispatch;
-    this.checkConfig();
+    this.setConfig(config);
   }
 
   showMessage(label) {
@@ -71,7 +71,12 @@ class CustomPixelsPlugin {
     });
   }
 
-  checkConfig() {
+  setConfig(configUpdate) {
+    Object.assign(this.config, configUpdate);
+
+    this.samples = null;
+    this.pixelTransitions = null;
+
     const {
       imageUrl,
       pixelSize,
@@ -174,13 +179,6 @@ class CustomPixelsPlugin {
     );
 
     return context.getImageData(0, 0, pixelSize, pixelSize);
-  }
-
-  setConfig(configUpdate) {
-    this.samples = null;
-    this.pixelTransitions = null;
-    Object.assign(this.config, configUpdate);
-    this.checkConfig();
   }
 
   withImage(image) {
