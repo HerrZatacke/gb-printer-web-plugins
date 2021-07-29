@@ -21,18 +21,14 @@ class SVGIze {
       },
     };
 
-    this.config = config;
+    this.config = {};
     this.saveAs = env.saveAs;
     this.progress = env.progress;
-    this.checkConfig();
+    this.setConfig(config);
   }
 
   setConfig(configUpdate) {
     Object.assign(this.config, configUpdate);
-    this.checkConfig();
-  }
-
-  checkConfig() {
     this.config.r1 = parseFloat(this.config.r1) || 0;
     this.config.r2 = parseFloat(this.config.r2) || 0;
     this.config.r3 = parseFloat(this.config.r3) || 0;
