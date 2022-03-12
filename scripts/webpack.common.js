@@ -7,6 +7,7 @@ const gbpWebPlugins = {
   svgize: path.join(process.cwd(), 'src', 'javascript', 'svgize', 'index.js'),
   exampleDummy: path.join(process.cwd(), 'src', 'javascript', 'examples', 'dummy.js'),
   exampleSkeleton: path.join(process.cwd(), 'src', 'javascript', 'examples', 'skeleton.js'),
+  gbdkTiles: path.join(process.cwd(), 'src', 'javascript', 'gbdk-tiles', 'index.js'),
 };
 
 module.exports = () => ({
