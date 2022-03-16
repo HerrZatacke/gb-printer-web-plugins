@@ -8,6 +8,7 @@ const gbpWebPlugins = {
   exampleDummy: path.join(process.cwd(), 'src', 'javascript', 'examples', 'dummy.js'),
   exampleSkeleton: path.join(process.cwd(), 'src', 'javascript', 'examples', 'skeleton.js'),
   gbdkTiles: path.join(process.cwd(), 'src', 'javascript', 'gbdk-tiles', 'index.js'),
+  toSav: path.join(process.cwd(), 'src', 'javascript', 'to-sav', 'index.js'),
 };
 
 module.exports = () => ({
@@ -34,7 +35,7 @@ module.exports = () => ({
         include: path.join(process.cwd(), 'src'),
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif|sav)$/i,
         use: [
           {
             loader: 'url-loader',
