@@ -10,6 +10,7 @@ const gbpWebPlugins = {
   randomGeneratedBunch: path.join(process.cwd(), 'src', 'javascript', 'random-generated-bunch', 'index.js'),
   gbdkTiles: path.join(process.cwd(), 'src', 'javascript', 'gbdk-tiles', 'index.js'),
   toSav: path.join(process.cwd(), 'src', 'javascript', 'to-sav', 'index.js'),
+  average: path.join(process.cwd(), 'src', 'javascript', 'average', 'index.js'),
 };
 
 module.exports = () => ({
