@@ -7,6 +7,10 @@ class DummyPlugin {
         label: 'Image export dimension factor (1x, 2x, ...)',
         type: 'number',
       },
+      fileExtension: {
+        label: 'Filetype: Use "png", "jpg" or "webp"',
+        type: 'string',
+      },
     };
 
     // will be updated via setConfig()
@@ -46,6 +50,24 @@ class DummyPlugin {
 
   setConfig(configUpdate) {
     Object.assign(this.config, configUpdate);
+
+    switch (configUpdate.fileExtension?.toLowerCase()) {
+      case 'jpg':
+      case 'jpeg':
+        this.config.fileExtension = 'jpg';
+        this.config.mimeType = 'image/jpeg';
+        break;
+      case 'webp':
+        this.config.fileExtension = 'webp';
+        this.config.mimeType = 'image/webp';
+        break;
+      case 'png':
+      default:
+        this.config.fileExtension = 'png';
+        this.config.mimeType = 'png';
+        break;
+    }
+
   }
 
   withImage() {
@@ -88,10 +110,11 @@ class DummyPlugin {
     });
 
     lightboxBoxSaveButton.addEventListener('click', () => {
+      console.log(this.config.fileExtension, this.config.fileExtension);
       this.mainCanvas.toBlob(async (blob) => {
-        await this.saveAs(blob, 'average.png');
+        await this.saveAs(blob, `average.${this.config.fileExtension}`);
         document.body.removeChild(lightbox);
-      }, 'image/png');
+      }, this.config.mimeType);
     });
 
     lightboxBoxDenyButton.addEventListener('click', () => {
