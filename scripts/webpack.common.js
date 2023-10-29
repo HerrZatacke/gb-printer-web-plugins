@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const gbpWebPlugins = {
+  stitch: path.join(process.cwd(), 'src', 'javascript', 'stitch', 'index.js'),
   customPixels: path.join(process.cwd(), 'src', 'javascript', 'customPixels', 'index.js'),
   svgize: path.join(process.cwd(), 'src', 'javascript', 'svgize', 'index.js'),
   exampleDummy: path.join(process.cwd(), 'src', 'javascript', 'examples', 'dummy.js'),
