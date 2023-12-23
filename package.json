@@ -8,19 +8,11 @@
     "build:clean": "rimraf dist/*",
     "build:webpack": "webpack --config ./scripts/webpack.prod.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/HerrZatacke/gb-printer-web-plugins.git"
-  },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/HerrZatacke/gb-printer-web-plugins/issues"
-  },
-  "homepage": "https://github.com/HerrZatacke/gb-printer-web-plugins#readme",
   "devDependencies": {
-    "@babel/core": "^7.14.3",
+    "@babel/core": "7.18.6",
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
     "@octokit/rest": "^18.1.0",
@@ -38,7 +30,7 @@
     "html-webpack-plugin": "^5.3.1",
     "rimraf": "^3.0.2",
     "url-loader": "^4.1.1",
-    "webpack": "^5.38.1",
+    "webpack": "5.76.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2",
