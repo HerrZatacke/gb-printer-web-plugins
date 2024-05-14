@@ -38,9 +38,9 @@ class CustomPixelsPlugin {
         label: 'Flip and rotate sample pixels (set to !=0 to activate)',
         type: 'number',
       },
-      useImagePalette: {
-        label: 'Use the image\'s palette to colorize the pixels',
-        type: 'number',
+      colorMix: {
+        label: 'Use the image\'s palette to colorize the pixels. (allowed values from "ctx.globalCompositeOperation")',
+        type: 'string',
       },
     };
 
@@ -97,7 +97,6 @@ class CustomPixelsPlugin {
 
     this.config.exportAs = exportAs || 'jpg';
     this.config.streakIntensity = streakIntensity || 0;
-    this.config.useImagePalette = this.config.useImagePalette ? 1 : 0;
   }
 
   setPixelTransitions() {
@@ -288,9 +287,9 @@ class CustomPixelsPlugin {
 
       targetContext.putImageData(pixel, x * this.config.pixelSize, y * this.config.pixelSize);
 
-      if (this.config.useImagePalette) {
+      if (this.config.colorMix) {
         /* eslint-disable no-param-reassign */
-        targetContext.globalCompositeOperation = 'hue';
+        targetContext.globalCompositeOperation = this.config.colorMix;
         targetContext.fillStyle = hex;
         targetContext.fillRect(
           x * this.config.pixelSize,
