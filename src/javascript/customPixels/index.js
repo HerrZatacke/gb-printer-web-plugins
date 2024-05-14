@@ -38,6 +38,10 @@ class CustomPixelsPlugin {
         label: 'Flip and rotate sample pixels (set to !=0 to activate)',
         type: 'number',
       },
+      useImagePalette: {
+        label: 'Use the image\'s palette to colorize the pixels',
+        type: 'number',
+      },
     };
 
     this.canRun = false;
@@ -93,6 +97,7 @@ class CustomPixelsPlugin {
 
     this.config.exportAs = exportAs || 'jpg';
     this.config.streakIntensity = streakIntensity || 0;
+    this.config.useImagePalette = this.config.useImagePalette ? 1 : 0;
   }
 
   setPixelTransitions() {
@@ -282,6 +287,20 @@ class CustomPixelsPlugin {
       }
 
       targetContext.putImageData(pixel, x * this.config.pixelSize, y * this.config.pixelSize);
+
+      if (this.config.useImagePalette) {
+        /* eslint-disable no-param-reassign */
+        targetContext.globalCompositeOperation = 'hue';
+        targetContext.fillStyle = hex;
+        targetContext.fillRect(
+          x * this.config.pixelSize,
+          y * this.config.pixelSize,
+          (x + 1) * this.config.pixelSize,
+          (y + 1) * this.config.pixelSize,
+        );
+        /* eslint-enable no-param-reassign */
+      }
+
     };
   }
 
