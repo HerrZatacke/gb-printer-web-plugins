@@ -112,7 +112,10 @@ class DummyPlugin {
     lightboxBoxSaveButton.addEventListener('click', () => {
       console.log(this.config.fileExtension, this.config.fileExtension);
       this.mainCanvas.toBlob(async (blob) => {
-        await this.saveAs(blob, `average.${this.config.fileExtension}`);
+        const now = new Date();
+        const datetime = now.toISOString().replace(/[-:T]/g, '').slice(0, 14);
+
+        await this.saveAs(blob, `${datetime}-average.${this.config.fileExtension}`);
         document.body.removeChild(lightbox);
       }, this.config.mimeType);
     });
