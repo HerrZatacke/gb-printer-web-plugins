@@ -6,7 +6,7 @@
 
       const destinationHost = dev ? 'http://localhost:3000/' : 'https://herrzatacke.github.io/gb-printer-web/';
 
-      const sourceHost = encodeURIComponent(`${window.location.protocol}//${window.location.host}/`);
+      const sourceHost = encodeURIComponent(`${window.location.protocol}//${window.location.host}${window.location.pathname}`);
 
       [...installLinks].forEach((link) => {
         const pluginName = link.dataset.name;
