@@ -74,7 +74,7 @@ class DummyPlugin {
     this.showMessage(`${this.name} is needs to be run over a set of images`);
   }
 
-  withSelection(images) {
+  async withSelection(images) {
     const lightbox = document.createElement('div');
     lightbox.classList.add('lightbox');
     const lightboxBox = document.createElement('div');
@@ -121,27 +121,30 @@ class DummyPlugin {
       document.body.removeChild(lightbox);
     });
 
-    Promise.all(images.map((image) => (
+    const canvases = await Promise.all(images.map((image) => (
       image.getCanvas({
         scaleFactor: this.config.scaleFactor || 4,
       })
-    )))
-      .then((canvases) => {
-        canvases.forEach((canvas, index) => {
-          if (index === 0) {
-            this.mainCanvas = canvas;
-            this.mainCanvasCtx = this.mainCanvas.getContext('2d');
-            lightboxBoxContent.appendChild(this.mainCanvas);
-            this.mainCanvas.style.display = 'block';
-            this.mainCanvas.style.width = '100%';
-            this.mainCanvas.style.maxWidth = '440px';
-            this.mainCanvas.style.margin = '0 auto';
-          } else {
-            this.mainCanvasCtx.globalAlpha = 1 / (index + 1);
-            this.mainCanvasCtx.drawImage(canvas, 0, 0);
-          }
-        });
-      });
+    )));
+
+    document.body.appendChild(canvases[1]);
+
+    console.log(document.body, canvases[1]);
+
+    canvases.forEach((canvas, index) => {
+      if (index === 0) {
+        this.mainCanvas = canvas;
+        this.mainCanvasCtx = this.mainCanvas.getContext('2d');
+        lightboxBoxContent.appendChild(this.mainCanvas);
+        this.mainCanvas.style.display = 'block';
+        this.mainCanvas.style.width = '100%';
+        this.mainCanvas.style.maxWidth = '440px';
+        this.mainCanvas.style.margin = '0 auto';
+      } else {
+        this.mainCanvasCtx.globalAlpha = 1 / (index + 1);
+        this.mainCanvasCtx.drawImage(canvas, 0, 0);
+      }
+    });
   }
 }
 

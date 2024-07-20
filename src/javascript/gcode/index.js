@@ -44,7 +44,7 @@ const getCanvasOpts = {
 class Gcode {
   constructor(env, config) {
     this.name = 'G-Code';
-    this.description = 'Creates gcode from your image. Use {x} and {y} for coordinates.';
+    this.description = 'Creates gcode from your image. Use {x} and {y} for coordinates. Use double hash `##` to entirely remove line from final file';
     this.configParams = {
       globalPrefix: {
         label: 'Global prefix',
@@ -188,7 +188,14 @@ class Gcode {
     //   groups,
     // }, null, 2);
 
-    this.saveAs(new Blob([code.flat(Infinity).join('\n')]), `gcode.${meta.title ? `${meta.title}.` : ''}nc`);
+    const lines = code
+      .flat(Infinity)
+      .map((line) => line.split('#')[0].trim())
+      .filter(Boolean);
+
+    console.log(lines);
+
+    this.saveAs(new Blob([lines.join('\n')]), `gcode.${meta.title ? `${meta.title}.` : ''}nc`);
   }
 
   withSelection() {}

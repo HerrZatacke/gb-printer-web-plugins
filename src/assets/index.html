@@ -3,14 +3,65 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="robots" content="noindex, nofollow, noarchive, noodp"/>
   <title><%=htmlWebpackPlugin.options.title%></title>
 </head>
 <body>
-  <div class="app__content">
-    <h1 class="app__content-headline">Game Boy Printer Web Plugins</h1>
-    <ul>
+  <div>
+    <h1>Game Boy Printer Web Plugins</h1>
+    <ul class="plugins-list">
       <%=htmlWebpackPlugin.options.pluginList%>
     </ul>
+    <script>
+      const installLinks = document.querySelectorAll('a.install');
+      const dev = (
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1'
+      );
+
+      const destinationHost = dev ? 'http://localhost:3000/' : 'https://herrzatacke.github.io/gb-printer-web/';
+
+      const sourceHost = encodeURIComponent(`${window.location.protocol}//${window.location.host}/`);
+
+      [...installLinks].forEach((link) => {
+        const pluginName = link.dataset.name;
+
+        console.log(pluginName)
+        link.href = `${destinationHost}#/add-plugin/${sourceHost}${pluginName}`
+      });
+    </script>
+    <style>
+      body {
+        font-family: monospace;
+        background-color: #333;
+        padding: 30px;
+        color: #999;
+      }
+
+      .plugins-list {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .plugins-list li {
+        display: flex;
+        font-size: 18px;
+      }
+
+      .plugins-list a {
+        flex-basis: 250px;
+        text-decoration: none;
+        color: #099;
+      }
+
+      .plugins-list a:hover {
+        color: #909;
+      }
+
+      .plugins-list a.install {
+        flex-basis: auto;
+      }
+    </style>
   </div>
 </body>
 </html>

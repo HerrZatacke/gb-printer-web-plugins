@@ -66,7 +66,10 @@ module.exports = () => ({
       title: 'Gameboy Printer Web Plugins',
       pluginList: Object.keys(gbpWebPlugins)
         .map((name) => (
-          `<li><a href="./${name}.js">${name}</a></li>`
+          `<li>
+            <a href="./${name}.js">${name}</a>
+            <a class="install" target="webapp" data-name="${encodeURIComponent(`${name}.js`)}">🔗 install</a>
+          </li>`
         ))
         .join(''),
       template: './src/assets/index.html',
