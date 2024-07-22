@@ -110,7 +110,6 @@ class DummyPlugin {
     });
 
     lightboxBoxSaveButton.addEventListener('click', () => {
-      console.log(this.config.fileExtension, this.config.fileExtension);
       this.mainCanvas.toBlob(async (blob) => {
         const now = new Date();
         const datetime = now.toISOString().replace(/[-:T]/g, '').slice(0, 14);
@@ -129,10 +128,6 @@ class DummyPlugin {
         scaleFactor: this.config.scaleFactor || 4,
       })
     )));
-
-    document.body.appendChild(canvases[1]);
-
-    console.log(document.body, canvases[1]);
 
     canvases.forEach((canvas, index) => {
       if (index === 0) {
