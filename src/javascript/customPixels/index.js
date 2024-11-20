@@ -199,7 +199,8 @@ class CustomPixelsPlugin {
       image.getPalette(),
       image.getCanvas({ lockFrame: false }),
       this.loadImage(),
-    ]).then(([meta, { palette: sourcePalette }, sourceCanvas]) => {
+    ]).then(([meta, { palette }, sourceCanvas]) => {
+      const sourcePalette = palette.map((v) => v.toLowerCase());
 
       if (meta.isRGBN) {
         this.showMessage(`${this.name} does not work with RGBN images`);
