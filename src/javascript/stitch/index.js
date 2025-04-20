@@ -3,7 +3,7 @@ class DummyPlugin {
     this.name = 'Stitch';
     this.description = 'This plugin stitches separate images while removing appropriate top/bottom frames';
     this.setConfig(config);
-    this.dispatch = env.store.dispatch;
+    this.importFiles = env.functions.importFiles;
   }
 
   setConfig(/* config */) {}
@@ -36,10 +36,7 @@ class DummyPlugin {
       file = new Blob([...fileContent], { type: 'text/plain' });
     }
 
-    this.dispatch({
-      type: 'IMPORT_FILES',
-      payload: { files: [file] },
-    });
+    this.importFiles([file]);
   }
 }
 
