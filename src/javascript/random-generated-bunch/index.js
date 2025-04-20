@@ -21,8 +21,8 @@ class RGB {
     this.config = {};
     this.setConfig(config);
 
-
-    this.dispatch = env.store.dispatch;
+    this.showMessage = (text) => env.functions.alert(this.name, text);
+    this.addImages = env.functions.addImages;
     this.progress = env.progress;
   }
 
@@ -75,7 +75,7 @@ class RGB {
 
     this.progress(0.3);
 
-    const addImages = Array(this.config.combinations)
+    const toAdd = Array(this.config.combinations)
       .fill('')
       .map((_, index) => {
         const red = this.pickOne(bwImages);
@@ -88,10 +88,7 @@ class RGB {
 
     this.progress(0.4);
 
-    this.dispatch({
-      type: 'ADD_IMAGES',
-      payload: addImages,
-    });
+    this.addImages(toAdd);
 
     this.progress(0.5);
 
@@ -104,27 +101,6 @@ class RGB {
   withImage() {
     this.showMessage('This plugin runs on a image selection');
     this.progress(0);
-  }
-
-  showMessage(label) {
-    this.dispatch({
-      type: 'CONFIRM_ASK',
-      payload: {
-        message: this.name,
-        questions: () => [
-          {
-            label,
-            key: 'info',
-            type: 'info',
-          },
-        ],
-        confirm: () => {
-          this.dispatch({
-            type: 'CONFIRM_ANSWERED',
-          });
-        },
-      },
-    });
   }
 }
 
