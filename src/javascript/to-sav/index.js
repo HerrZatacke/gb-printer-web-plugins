@@ -12,7 +12,7 @@ class PluginSkeleton {
     this.setConfig(config);
     this.saveAs = env.saveAs;
     this.progress = env.progress;
-    this.dispatch = env.store.dispatch;
+    this.showMessage = (text) => env.functions.alert(this.name, text);
   }
 
   setConfig(configUpdate) {
@@ -75,29 +75,8 @@ class PluginSkeleton {
         return baseRamArray;
       })
       .then((result) => {
-        this.saveAs(new Blob([result]), 'thingy.sav');
+        this.saveAs(new Blob([result]), 'generated.sav');
       });
-  }
-
-  showMessage(label) {
-    this.dispatch({
-      type: 'CONFIRM_ASK',
-      payload: {
-        message: this.name,
-        questions: () => [
-          {
-            label,
-            key: 'info',
-            type: 'info',
-          },
-        ],
-        confirm: () => {
-          this.dispatch({
-            type: 'CONFIRM_ANSWERED',
-          });
-        },
-      },
-    });
   }
 }
 
