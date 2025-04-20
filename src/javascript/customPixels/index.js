@@ -10,7 +10,7 @@
  */
 
 class CustomPixelsPlugin {
-  constructor({ saveAs, progress, store: { dispatch } }, config) {
+  constructor({ saveAs, progress, functions: { alert } }, config) {
     this.name = 'Custom Pixels Plugin';
     this.description = 'Render one of your images with pixels taken from en external image source';
     this.configParams = {
@@ -50,29 +50,8 @@ class CustomPixelsPlugin {
     this.pixelTransitions = null;
     this.saveAs = saveAs;
     this.progress = progress;
-    this.dispatch = dispatch;
+    this.showMessage = (text) => alert(this.name, text);
     this.setConfig(config);
-  }
-
-  showMessage(label) {
-    this.dispatch({
-      type: 'CONFIRM_ASK',
-      payload: {
-        message: this.name,
-        questions: () => [
-          {
-            label,
-            key: 'info',
-            type: 'info',
-          },
-        ],
-        confirm: () => {
-          this.dispatch({
-            type: 'CONFIRM_ANSWERED',
-          });
-        },
-      },
-    });
   }
 
   setConfig(configUpdate) {
