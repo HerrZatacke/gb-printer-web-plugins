@@ -193,6 +193,7 @@ class Gcode {
       .map((line) => line.split('#')[0].trim())
       .filter(Boolean);
 
+    // eslint-disable-next-line no-console
     console.log(lines);
 
     this.saveAs(new Blob([lines.join('\n')]), `gcode.${meta.title ? `${meta.title}.` : ''}nc`);
