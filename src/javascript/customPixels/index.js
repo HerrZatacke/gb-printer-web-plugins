@@ -10,7 +10,7 @@
  */
 
 class CustomPixelsPlugin {
-  constructor({ saveAs, progress, functions: { alert } }, config) {
+  constructor({ saveAs, setError, progress, functions: { alert } }, config) {
     this.name = 'Custom Pixels Plugin';
     this.description = 'Render one of your images with pixels taken from en external image source';
     this.configParams = {
@@ -49,6 +49,7 @@ class CustomPixelsPlugin {
     this.samples = null;
     this.pixelTransitions = null;
     this.saveAs = saveAs;
+    this.setError = setError;
     this.progress = progress;
     this.showMessage = (text) => alert(this.name, text);
     this.setConfig(config);
@@ -110,29 +111,36 @@ class CustomPixelsPlugin {
       image.addEventListener('load', () => {
         const sampleCount = Math.floor(image.naturalWidth / this.config.pixelSize);
 
-        this.samples = [...Array(4)]
-          .fill(null)
-          .map((__, sampleY) => (
-            [...Array(sampleCount)]
-              .fill(null)
-              .map((_, sampleX) => (
-                this.pixelTransitions.map((matrix) => (
-                  () => this.generateSample({
-                    image,
-                    sampleY,
-                    sampleX,
-                    matrix,
-                  })
-                ))
-              ))
-              .flat()
-          ));
+        this.samples = Array.from({ length: 4 }, (_, sampleY) => {
+          const samples = Array.from({ length: sampleCount }, (__, sampleX) => (
+            this.pixelTransitions.map((matrix) => () => (
+              this.generateSample({
+                image,
+                sampleY,
+                sampleX,
+                matrix,
+              })))
+          )).flat();
+
+          const wantSamples = sampleCount * this.pixelTransitions.length;
+          const gotSamples = samples.filter(Boolean).length;
+          if (wantSamples !== gotSamples) {
+            this.setError(new Error(`could not generate required samples of pixels: Expected ${wantSamples}, got ${gotSamples}`));
+            return null;
+          }
+
+          return samples;
+        });
+
 
         resolve();
       });
 
 
-      image.addEventListener('error', reject);
+      image.addEventListener('error', () => {
+        this.setError(new Error('Could not load pixels source image'));
+        reject();
+      });
 
       image.src = this.config.imageUrl;
     });
@@ -212,17 +220,20 @@ class CustomPixelsPlugin {
 
         // render one image column
         for (let y = 0; y < sourceCanvas.height; y += 1) {
-          setPixelInContext(x, y);
+          const success = setPixelInContext(x, y);
+          if (!success) {
+            return;
+          }
         }
 
         const nextX = (x + 1) % sourceCanvas.width;
 
         // Not done yet
         if (nextX) {
-          window.requestAnimationFrame(() => {
+          window.setTimeout(() => {
             this.progress(x / sourceCanvas.width);
             setNextPx(nextX);
-          });
+          }, 0);
           return;
         }
 
@@ -246,9 +257,23 @@ class CustomPixelsPlugin {
           .map((val) => val.toString(16).padStart(2, '0'))
           .join('')
       }`;
-      const rowIndex = 3 - sourcePalette.findIndex((palColor) => palColor === hex);
 
-      const sampleType = this.samples?.[rowIndex] || [[]];
+      if (!this.samples || !this.samples.length || !this.samples[0].length) {
+        this.setError(new Error('No samples to set pixel'));
+        return false;
+      }
+
+      const rowIndex = 3 - sourcePalette.findIndex((palColor) => (
+        palColor.toLowerCase() === hex.toLowerCase()
+      ));
+
+      const sampleType = this.samples[rowIndex];
+
+      if (!sampleType) {
+        this.setError(new Error(`No sample matching palette color ${rowIndex}`));
+        return false;
+      }
+
       const randomIndex = Math.floor(Math.random() * sampleType.length);
       let pixel = sampleType?.[randomIndex] || sampleType[0];
 
@@ -280,6 +305,7 @@ class CustomPixelsPlugin {
         /* eslint-enable no-param-reassign */
       }
 
+      return true;
     };
   }
 
@@ -330,7 +356,7 @@ class CustomPixelsPlugin {
   }
 
   withSelection() {
-    this.showMessage(`${this.name} does not handle multiple images at once.`);
+    this.setError(new Error(`${this.name} does not handle multiple images at once.`));
   }
 }
 
