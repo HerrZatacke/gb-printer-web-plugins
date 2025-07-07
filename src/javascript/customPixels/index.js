@@ -181,8 +181,6 @@ class CustomPixelsPlugin {
 
     this.setPixelTransitions();
 
-    let errorCount = 0;
-
     Promise.all([
       image.getMeta(),
       image.getPalette(),
@@ -230,7 +228,8 @@ class CustomPixelsPlugin {
         for (let y = 0; y < sourceCanvas.height; y += 1) {
           const success = setPixelInContext(x, y);
           if (!success) {
-            errorCount += 1;
+            this.progress(0);
+            return;
           }
         }
 
@@ -244,9 +243,6 @@ class CustomPixelsPlugin {
           }, 0);
           return;
         }
-
-        // eslint-disable-next-line no-console
-        console.log(`encountered ${errorCount} pixel misses.`);
 
         this.saveImage(targetCanvas, meta);
       };
@@ -276,6 +272,7 @@ class CustomPixelsPlugin {
       const sampleType = this.samples[rowIndex];
 
       if (!sampleType) {
+        this.setError(new Error(`No sample matching palette color ${rowIndex} - ${JSON.stringify(sourcePalette)} - ${hex}`));
         return false;
       }
 
