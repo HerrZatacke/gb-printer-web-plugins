@@ -191,8 +191,14 @@ class CustomPixelsPlugin {
     ]).then(([meta, { palette }, sourceCanvas]) => {
       const sourcePalette = palette.map((v) => v.toLowerCase());
 
+      if (!this.samples || !this.samples.length || !this.samples[0].length) {
+        this.setError(new Error('No samples to set pixel'));
+        this.progress(0);
+        return;
+      }
+
       if (meta.isRGBN) {
-        this.showMessage(`${this.name} does not work with RGBN images`);
+        this.setError(new Error(`${this.name} does not work with RGBN images`));
         this.progress(0);
         return;
       }
@@ -240,7 +246,7 @@ class CustomPixelsPlugin {
         }
 
         // eslint-disable-next-line no-console
-        console.log(`encountered ${errorCount} palette misses.`);
+        console.log(`encountered ${errorCount} pixel misses.`);
 
         this.saveImage(targetCanvas, meta);
       };
@@ -263,11 +269,6 @@ class CustomPixelsPlugin {
           .join('')
       }`;
 
-      if (!this.samples || !this.samples.length || !this.samples[0].length) {
-        this.setError(new Error('No samples to set pixel'));
-        return false;
-      }
-
       const rowIndex = 3 - sourcePalette.findIndex((palColor) => (
         palColor.toLowerCase() === hex.toLowerCase()
       ));
@@ -275,7 +276,6 @@ class CustomPixelsPlugin {
       const sampleType = this.samples[rowIndex];
 
       if (!sampleType) {
-        this.setError(new Error(`No sample matching palette color ${rowIndex} - ${JSON.stringify(sourcePalette)} - ${hex}`));
         return false;
       }
 
