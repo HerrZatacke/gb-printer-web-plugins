@@ -181,6 +181,8 @@ class CustomPixelsPlugin {
 
     this.setPixelTransitions();
 
+    let errorCount = 0;
+
     Promise.all([
       image.getMeta(),
       image.getPalette(),
@@ -222,7 +224,7 @@ class CustomPixelsPlugin {
         for (let y = 0; y < sourceCanvas.height; y += 1) {
           const success = setPixelInContext(x, y);
           if (!success) {
-            return;
+            errorCount += 1;
           }
         }
 
@@ -236,6 +238,9 @@ class CustomPixelsPlugin {
           }, 0);
           return;
         }
+
+        // eslint-disable-next-line no-console
+        console.log(`encountered ${errorCount} palette misses.`);
 
         this.saveImage(targetCanvas, meta);
       };
