@@ -270,7 +270,7 @@ class CustomPixelsPlugin {
       const sampleType = this.samples[rowIndex];
 
       if (!sampleType) {
-        this.setError(new Error(`No sample matching palette color ${rowIndex}`));
+        this.setError(new Error(`No sample matching palette color ${rowIndex} - ${JSON.stringify(sourcePalette)} - ${hex}`));
         return false;
       }
 
